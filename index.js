@@ -32,7 +32,10 @@ const postCollection = client.db("end_games_social_app").collection("posts");
 app.get("/posts", async (req, res) => {
   try {
     const query = {};
-    const result = await postCollection.find(query).toArray();
+    const result = await postCollection
+      .find(query)
+      .sort({ like: -1 })
+      .toArray();
     res.status(200).json(result);
   } catch (e) {
     res.status(500).send({ message: e.message });
