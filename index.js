@@ -30,6 +30,27 @@ run().catch((error) => console.log(error));
 const postCollection = client.db("end_games_social_app").collection("posts");
 const AboutCollection = client.db("end_games_social_app").collection("about");
 
+app.post("/posts", async (req, res) => {
+  try {
+    const query = req.body;
+    const result = await postCollection.insertOne(query);
+    // res.send(result);
+
+    if (result.acknowledged) {
+      res.send({
+        success: true,
+        message: "Post successfully",
+      });
+    } else
+      res.send({
+        success: false,
+        error: "Post fail!",
+      });
+  } catch (e) {
+    console.log(e.message);
+  }
+});
+
 app.get("/posts", async (req, res) => {
   try {
     const query = {};
